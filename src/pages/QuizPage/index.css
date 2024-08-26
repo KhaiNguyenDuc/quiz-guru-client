@@ -1,0 +1,46 @@
+    .scrollable-col {
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+
+    
+
+    .given-text {
+        display: block;
+        background-color: white;
+        padding: 40px;
+    }
+
+    @media screen and (max-width:  768px) {
+        .result.given-text {
+            display: none;
+        }   
+        .given-text {
+            display: none;
+            
+        }
+    }
+
+
+
+   
+
+
+
+    .progress-timer {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        border-radius: 6%;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .progress-timer.time {
+        width: 120px;
+        height: 70px;
+        background: white
+    }
