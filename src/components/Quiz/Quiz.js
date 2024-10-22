@@ -4,7 +4,7 @@ import "./Quiz.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useGivenText from "../../hook/useGivenText";
 import RecordService from "../../services/RecordService";
-import UserService from "../../services/UserService";
+import CustomerService from "../../services/CustomerService";
 import WordService from "../../services/WordService";
 import PreLoader from "../PreLoader/PreLoader";
 import SingleChoice from "./SingleChoice";

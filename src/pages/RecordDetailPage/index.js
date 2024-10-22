@@ -3,7 +3,7 @@ import "./index.css";
 import { useLocation } from "react-router-dom";
 import useGivenText from "../../hook/useGivenText";
 import RecordDetail from "../../components/Record/RecordDetail";
-import UserService from "../../services/UserService";
+import CustomerService from "../../services/CustomerService";
 import { useParams } from "react-router-dom";
 import PreLoader from "../../components/PreLoader/PreLoader";
 const RecordDetailPage = () => {
