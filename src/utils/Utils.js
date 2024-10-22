@@ -1,3 +1,7 @@
+import keycloak from "../keycloak";
+import { LOGOUT_REDIRECT_URL } from "./Constant";
+
+
 export const validateInput = (inputString) => {
     // Define the regular expression to match
     var expression = /^[a-zA-Z\s,]+$/;
@@ -22,3 +26,18 @@ export const isValidEmail = (email) => {
   var emailRegex = /\S+@\S+\.\S+/;
   return emailRegex.test(email);
 }
+
+
+
+export const logoutUser = () => {
+  localStorage.clear();
+  keycloak.logout({
+    redirectUri: LOGOUT_REDIRECT_URL,
+  })
+  .then((success) => {
+    console.log("logout success", success);
+  })
+  .catch((error) => {
+    console.log("logout error", error);
+  });
+};

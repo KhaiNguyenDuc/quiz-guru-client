@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Record from "../../components/Record/Record";
 import "./index.css";
-import UserService from "../../services/UserService";
+import CustomerService from "../../services/CustomerService";
 import PreLoader from "../../components/PreLoader/PreLoader";
 import CustomPagination from "../../components/Pagination/CustomPagination";
 function RecordPage() {

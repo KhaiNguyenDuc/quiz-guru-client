@@ -1,38 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import UserService from '../services/UserService';
+import keycloak from '../keycloak';
+import useUser from "../hook/useUser";
 const ProtectedRoute = ({ children }) => {
+  const [hasRequiredRoles, setHasRequiredRoles] = useState(false);
+  const { isAuthenticated } = useUser();
+  useEffect(() => {
+    const checkKeycloakAuth = async () => {
+      if (isAuthenticated) {
+        const userRoles = keycloak.realmAccess?.roles || [];
+        if (userRoles.includes("ADMIN") || userRoles.includes("USER")) {
+          setHasRequiredRoles(true);
+        }
+      } 
+    };
 
-    const [role, setRole] = useState(null);
-    const getCurrentUserInfo = async () => {
-      return await UserService.getCurrentUser()
-    }
-    useEffect(() => {
-      if (localStorage.getItem("accessToken") !== null) {
-        const fetchUserInfo = async () => {
-          const response = await getCurrentUserInfo();
-          if(response?.status === 401){
-              return children
-          }
-          const userRoles = response.roles.map(role => role.name);
-          if (userRoles.includes("ADMIN") || userRoles.includes("USER")) {
-            setRole(userRoles)
-          }
-        };
-  
-        fetchUserInfo();
-      }
-    }, []);
-  
-    if (localStorage.getItem("accessToken") === null) {
-      return <Navigate to="/auth/login" />;
-    }
-  
-    if (role) {
-      return children
-    } else {
-    <Navigate to="/auth/login" />;
-    }
+    checkKeycloakAuth();
+  }, []);
+
+  if(!hasRequiredRoles){
+    keycloak.login()
+  }
+  return children
+
 
 };
 

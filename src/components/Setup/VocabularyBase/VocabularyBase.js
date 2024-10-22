@@ -8,7 +8,7 @@ import {
   TRY_AGAIN_MSG,
 } from "../../../utils/Constant";
 import { validateInput } from "../../../utils/Utils";
-import UserService from "../../../services/UserService";
+import CustomerService from "../../../services/CustomerService";
 const VocabularyBase = ({ defaultVocabulary, wordSetId }) => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);

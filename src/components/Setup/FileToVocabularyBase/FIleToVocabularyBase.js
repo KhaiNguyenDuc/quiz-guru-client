@@ -12,7 +12,7 @@ import {
   UNSUPPORT_MEDIA_TYPE_MSG,
 } from "../../../utils/Constant";
 import PreLoader from "../../PreLoader/PreLoader";
-import UserService from "../../../services/UserService";
+import CustomerService from "../../../services/CustomerService";
 const FileToVocabularyBase = () => {
   const navigate = useNavigate();
   const [isError, setError] = useState("")

@@ -1,10 +1,10 @@
 import { axiosPrivate } from "../api";
-import { AUTH_URL, LIBRARY_URL, QUIZ_URL, RECORD_URL, USER_URL } from "../utils/Constant";
+import { AUTH_URL, LIBRARY_URL, QUIZ_URL, RECORD_URL, CUSTOMER_URL } from "../utils/Constant";
 
-class UserService {
+class CustomerService {
   getCurrentUser() {
     return axiosPrivate
-      .get(AUTH_URL + "/users/current")
+      .get(CUSTOMER_URL + "/profile/current")
       .then((response) => response?.data?.data)
       .catch((error) => error?.data);
   }
@@ -52,7 +52,7 @@ class UserService {
 
   updateProfile(userProfile) {
     return axiosPrivate
-      .put(USER_URL + `/current/update`, userProfile, {
+      .put(CUSTOMER_URL + `/current/update`, userProfile, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -61,4 +61,4 @@ class UserService {
       .catch((error) => error?.response);
   }
 }
-export default new UserService();
+export default new CustomerService();

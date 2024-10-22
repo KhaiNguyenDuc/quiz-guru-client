@@ -8,7 +8,7 @@ import {
 } from "../../../utils/Constant";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import UserService from "../../../services/UserService";
+import CustomerService from "../../../services/CustomerService";
 const TextToVocabularyBase = () => {
   let reactQuillRef = null;
   const navigate = useNavigate();

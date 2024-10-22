@@ -3,16 +3,18 @@ import "./index.css";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useUser from "../../hook/useUser";
-import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import {
   EMPTY_NAME,
   TRY_AGAIN_MSG,
   USERNAME_EXIST,
+  LOGOUT_REDIRECT_URL
 } from "../../utils/Constant";
 import { useLocation } from 'react-router-dom';
 import PreLoader from "../PreLoader/PreLoader";
 import { Nav } from "react-bootstrap";
+import keycloak from "../../keycloak";
+import { logoutUser } from "../../utils/Utils";
 const SideBar = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ const SideBar = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, setUser } = useUser();
+  const { user, setUser, isAuthenticated } = useUser();
   const [username, setUsername] = useState("");
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
@@ -45,27 +47,29 @@ const SideBar = ({ children }) => {
   };
   const getUserInfo = async () => {
     setLoading(true);
-    const response = await UserService.getCurrentUser();
-    if (response?.status == 400) {
-      return;
+    try {
+        if (isAuthenticated) {
+            const userInfo = await keycloak.loadUserProfile();
+          
+            setUser(userInfo);
+            setUsername(userInfo?.username);
+            console.log(userInfo)
+        } 
+    } catch (error) {
+        console.error('Error loading user profile:', error);
+    } finally {
+        setLoading(false);
     }
-    setUser(response);
-    setUsername(response?.username);
-    setLoading(false);
   };
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-   
       getUserInfo();
     
-  }, []);
+  }, [isAuthenticated]);
 
   const handleLogout = (e) => {
-    e.preventDefault();
-    setUser({});
-    localStorage.clear();
-    navigate("/auth/login");
+    logoutUser()
   };
 
   const handleEditClick = () => {

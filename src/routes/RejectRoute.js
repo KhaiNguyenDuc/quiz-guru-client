@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import UserService from '../services/UserService';
+import CustomerService from '../services/CustomerService';
 
 const RejectRoute = ({ children }) => {
 

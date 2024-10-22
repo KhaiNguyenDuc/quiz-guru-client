@@ -1,5 +1,9 @@
 export const HOST = 'api/v1'
 export const ROOT = 'http://localhost:8072'
+export const LOGOUT_REDIRECT_URL = "http://localhost:3000"
+export const KEYCLOAK_URL = 'http://localhost:7080'
+export const KEYCLOAK_REALM = 'Quizguru'
+export const KEYCLOAK_CLIENT_ID = 'quizguru-frontend-ac'
 export const GOOGLE_CLIENT_ID  = '990887837910-pml8dp7e0lhotrolcprggedblnfki2no.apps.googleusercontent.com'
 export const TXT_TYPE = 'text/plain';
 export const PDF_TYPE = 'application/pdf';
@@ -11,8 +15,7 @@ export const ALLOWED_TYPE = [
   ];
 export const NOT_FOUND_EMAIL = "Không tìm thấy email."
 export const BASE_URL = ROOT + "/" + HOST
-export const AUTH_URL = BASE_URL + "/auth"
-export const USER_URL = BASE_URL + "/users"
+export const CUSTOMER_URL = BASE_URL + "/customers"
 export const QUIZ_URL = BASE_URL + "/quizzes"
 export const RECORD_URL = BASE_URL + "/records"
 export const WORDSET_URL = BASE_URL + "/word-set"

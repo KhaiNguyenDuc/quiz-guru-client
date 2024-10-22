@@ -1,13 +1,8 @@
 import { useRoutes } from "react-router-dom";
 import MainLayout from "../layout/MainLayout";
 
-import Error from "../components/Error.js";
 import HomePage from "../pages/HomePage/index.js";
 import QuizPage from "../pages/QuizPage/index.js";
-import LoginPage from "../pages/LoginPage/index.js";
-import AuthLayout from "../layout/AuthLayout/index.js";
-import RegisterPage from "../pages/RegisterPage/index.js";
-import RejectRoute from "./RejectRoute.js";
 import QuizListPage from "../pages/QuizListPage/index.js";
 import RecordPage from "../pages/RecordPage/index.js";
 import RecordDetailPage from "../pages/RecordDetailPage/index.js";
@@ -17,43 +12,15 @@ import LibraryPage from "../pages/LibraryPage/index.js";
 import WordPage from "../pages/WordPage/index.js";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.js";
 import ProtectedRoute from "./ProtectedRoute.js";
-import FindAccountPage from "../pages/FindAccountPage/index.js";
-import ResetPasswordPage from "../pages/ResetPasswordPage/index.js";
-import VerifyPage from "../pages/VerifyPage/index.js";
 function useRouteElements() {
 
 
 
   const routeElements = useRoutes([
-    {
-      path: '/auth',
-      element: <RejectRoute><AuthLayout/></RejectRoute>,
-      children: [
-        {
-          path: '/auth/login',
-          element: <LoginPage/>
-        },
-        {
-          path: '/auth/register',
-          element: <RegisterPage/>
-        },
-        {
-          path: '/auth/verify',
-          element: <VerifyPage/>
-        },
-        {
-          path: '/auth/find-account',
-          element: <FindAccountPage/>
-        },
-        {
-          path: '/auth/reset-password',
-          element: <ResetPasswordPage/>
-        }
-      ]
-    },
+
     {
         path: '/',
-        element: <ProtectedRoute><MainLayout /></ProtectedRoute>,
+        element: <MainLayout />,
         children: [
           {
             path: '',

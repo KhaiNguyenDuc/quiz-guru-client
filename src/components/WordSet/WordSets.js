@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import WordSetCard from "./WordSetCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import UserService from "../../services/UserService";
+import CustomerService from "../../services/CustomerService";
 import CustomPagination from "../Pagination/CustomPagination";
 import PreLoader from "../PreLoader/PreLoader";
 import WordSetService from "../../services/WordSetService";

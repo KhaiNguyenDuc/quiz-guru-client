@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./QuizList.css";
-import UserService from "../../services/UserService";
+import CustomerService from "../../services/CustomerService";
 import QuizBox from "./QuizBox";
 import CustomPagination from "../Pagination/CustomPagination";
 import PreLoader from "../PreLoader/PreLoader";
