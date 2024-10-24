@@ -61,14 +61,14 @@ const VocabularyBase = ({ defaultVocabulary, wordSetId }) => {
       setError(TRY_AGAIN_MSG);
     } else {
       if (vocabularyBase.isDoQuiz === false) {
-        navigate(`/member/word-set/${quizResponse}`);
+        navigate(`/member/word-set/${quizResponse?.id}`);
       } else {
-        navigate(`/quiz/${quizResponse}`);
+        navigate(`/member/quiz-review/${quizResponse?.id}`)
       }
     }
   };
   const getAllCurrentUserWordSets = async () => {
-    const response = await UserService.getCurrentUserWordSets();
+    const response = await CustomerService.getCurrentUserWordSets();
     if (response?.status !== 400) {
       setWordSets(response?.data);
     }

@@ -6,6 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useUser();
   useEffect(() => {
     const checkKeycloakAuth = async () => {
+      console.log(isAuthenticated)
       if (isAuthenticated) {
         const userRoles = keycloak.realmAccess?.roles || [];
         if (userRoles.includes("ADMIN") || userRoles.includes("USER")) {
@@ -17,9 +18,7 @@ const ProtectedRoute = ({ children }) => {
     checkKeycloakAuth();
   }, []);
 
-  if(!hasRequiredRoles){
-    keycloak.login()
-  }
+
   return children
 
 

@@ -13,7 +13,7 @@ const RecordDetailPage = () => {
   const [record, setRecord] = useState({});
   const getCurrentUserRecordById = async (recordId) => {
     setLoading(true);
-    const response = await UserService.getCurrentUserRecordById(recordId);
+    const response = await CustomerService.getCurrentUserRecordById(recordId);
     if (response?.status !== 400) {
       setRecord(response);
     }

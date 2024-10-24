@@ -19,7 +19,7 @@ function RecordPage() {
   };
   const getAllRecords = async () => {
     setLoading(true);
-    const response = await UserService.getCurrentUserRecords(currentPage);
+    const response = await CustomerService.getCurrentUserRecords(currentPage);
     if (response?.status !== 400) {
       setRecords(response?.data);
       setTotalPage(response?.totalPages);

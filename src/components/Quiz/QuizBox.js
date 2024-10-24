@@ -39,7 +39,7 @@ const QuizBox = ({ quiz, setQuizList }) => {
           />
           Xóa
         </button>
-        <Link className="quiz-link text-dark" to={`/quiz/${quiz.id}`}>
+        <Link className="quiz-link text-dark" to={`/member/quiz-review/${quiz.id}`}>
           <span className="text-dark">Làm bài</span>{" "}
           <FontAwesomeIcon icon="arrow-right" />
         </Link>
