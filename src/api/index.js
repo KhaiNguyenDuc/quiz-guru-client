@@ -9,7 +9,16 @@ const axiosPrivate = axios.create({
 axiosPrivate.interceptors.request.use(
   async (request) => {
     try {
-      await keycloak.updateToken(30); // Refresh token if it's going to expire in the next 30 seconds
+      setInterval(() => {
+        console.error('Refresh token');
+        keycloak.updateToken(70).then(refreshed => {
+          if (refreshed) {
+            localStorage.setItem('accessToken', keycloak.token);
+          }
+        }).catch(() => {
+          console.error('Failed to refresh token');
+        });
+      }, 60000); 
     } catch (error) {
       console.error("Failed to refresh token", error);
       logoutUser();  // Call the logout utility
@@ -37,13 +46,13 @@ axiosPrivate.interceptors.response.use(
         return axiosPrivate(prevRequest);
       } catch (refreshError) {
         console.error("Failed to refresh token after 401 error:", refreshError);
-        logoutUser(); 
+        // logoutUser(); 
         return Promise.reject(refreshError);
       }
     } else if (error.response?.status === 403) {
-      logoutUser();
+      // logoutUser();
     } else if (error.response?.status === 500) {
-      window.location.href = "/internal-error";
+      // window.location.href = "/internal-error";
     }
     return Promise.reject(error);
   }

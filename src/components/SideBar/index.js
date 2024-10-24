@@ -15,6 +15,7 @@ import PreLoader from "../PreLoader/PreLoader";
 import { Nav } from "react-bootstrap";
 import keycloak from "../../keycloak";
 import { logoutUser } from "../../utils/Utils";
+import CustomerService from "../../services/CustomerService";
 const SideBar = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const SideBar = ({ children }) => {
     setFile(file);
     const imageUrl = URL.createObjectURL(e.target.files[0]);
 
-    const response = await UserService.updateProfile({
+    const response = await CustomerService.updateProfile({
       ...user,
       file: file,
     });
@@ -90,7 +91,7 @@ const SideBar = ({ children }) => {
       setUsername(user.username);
       return;
     }
-    const response = await UserService.updateProfile({
+    const response = await CustomerService.updateProfile({
       ...user,
       username: username,
     });

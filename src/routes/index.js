@@ -12,6 +12,7 @@ import LibraryPage from "../pages/LibraryPage/index.js";
 import WordPage from "../pages/WordPage/index.js";
 import ErrorPage from "../pages/ErrorPage/ErrorPage.js";
 import ProtectedRoute from "./ProtectedRoute.js";
+import QuizInfoReview from "../pages/QuizInfoReview/index.js";
 function useRouteElements() {
 
 
@@ -54,6 +55,10 @@ function useRouteElements() {
           {
             path: '/member/quiz',
             element: <QuizListPage/>
+          },
+          {
+            path: '/member/quiz-review/:quizId',
+            element: <QuizInfoReview/>
           },
           {
             path: '/member/library',

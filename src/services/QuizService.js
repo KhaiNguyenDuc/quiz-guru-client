@@ -126,7 +126,13 @@ class QuizService {
       .then((response) => response?.data?.data)
       .catch((error) => error?.response);
   }
-
+  
+  findQuizInfoById(quizId){
+    return axiosPrivate
+    .get(QUIZ_URL + `?id=${quizId}`)
+    .then((response) => response?.data?.data)
+    .catch((error) => error?.response);
+  }
 
 
 }

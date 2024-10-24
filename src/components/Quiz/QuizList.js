@@ -19,7 +19,7 @@ function QuizList() {
   };
   const getAllQuiz = async () => {
     setLoading(true);
-    const response = await UserService.getCurrentUserQuiz(currentPage);
+    const response = await CustomerService.getCurrentUserQuiz(currentPage);
     if (response?.status !== 400) {
       setQuizList(response?.data);
       setTotalPage(response?.totalPages);

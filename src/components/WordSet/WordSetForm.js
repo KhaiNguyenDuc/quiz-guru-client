@@ -26,6 +26,7 @@ const WordSetForm = () => {
               name: voc
             }
           })});
+
         if(response?.status !==400){
             navigate(`/member/word-set/${response?.data}`, {
                 state: {

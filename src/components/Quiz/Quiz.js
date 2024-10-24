@@ -29,7 +29,7 @@ function Quiz() {
   let { showText, setShowText } = useGivenText();
   const getById = async (id) => {
     setLoading(true);
-    const response = await UserService.getCurrentUserQuizById(id);
+    const response = await CustomerService.getCurrentUserQuizById(id);
     if (response?.status !== 400) {
       setQuestions(response?.questions);
       setGivenText(response?.givenText);
@@ -306,7 +306,7 @@ function Quiz() {
                     }
                   </>
                 ) : (
-                  <>
+        
                     <>
                       {questions[currentQuestion]?.type ===
                       "MULTIPLE_CHOICE" ? (
@@ -328,7 +328,7 @@ function Quiz() {
                         <></>
                       )}
                     </>
-                  </>
+   
                 )}
 
                 {isNextButton ? (

@@ -1,0 +1,49 @@
+.quiz-info-review {
+    width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.test-name {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.test-details {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.test-structure {
+    margin-top: 20px;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+.test-details .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.test-details .table th, .table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.test-details .table th {
+    background-color: #f9f9f9;
+    font-weight: bold;
+}
+
+.test-details .table td {
+    background-color: #ffffff;
+}

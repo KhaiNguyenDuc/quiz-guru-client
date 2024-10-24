@@ -52,11 +52,7 @@ class CustomerService {
 
   updateProfile(userProfile) {
     return axiosPrivate
-      .put(CUSTOMER_URL + `/current/update`, userProfile, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      .put(CUSTOMER_URL + `/profile/current/update`, userProfile)
       .then((response) => response?.data)
       .catch((error) => error?.response);
   }

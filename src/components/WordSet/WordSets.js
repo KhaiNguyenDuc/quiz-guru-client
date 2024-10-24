@@ -24,7 +24,7 @@ const WordSets = () => {
 
   const getAllWordSets = async () => {
     setLoading(true);
-    const response = await UserService.getCurrentUserWordSets(currentPage);
+    const response = await CustomerService.getCurrentUserWordSets(currentPage);
     if (response?.status !== 400) {
       setWordSets(response?.data);
       setTotalPage(response?.totalPages);

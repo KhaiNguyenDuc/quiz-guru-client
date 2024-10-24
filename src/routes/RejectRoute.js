@@ -7,7 +7,7 @@ const RejectRoute = ({ children }) => {
 
   const [role, setRole] = useState(null);
   const getCurrentUserInfo = async () => {
-    return await UserService.getCurrentUser()
+    return await CustomerService.getCurrentUser()
   }
   useEffect(() => {
     if (localStorage.getItem("accessToken") !== null) {

@@ -69,7 +69,7 @@ const FileToVocabularyBase = () => {
    
   };
   const getAllCurrentUserWordSets = async () => {
-    const response = await UserService.getCurrentUserWordSets();
+    const response = await CustomerService.getCurrentUserWordSets();
     if (response?.status !== 400) {
       setWordSets(response?.data);
     }
