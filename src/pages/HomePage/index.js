@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import FileBase from "../../components/Setup/FileBase/FileBase";
 import OptionTab from "../../components/Setup/OptionTab";
 import TextBase from "../../components/Setup/TextBase/TextBase";

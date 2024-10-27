@@ -10,7 +10,12 @@ import PreLoader from "../PreLoader/PreLoader";
 import SingleChoice from "./SingleChoice";
 import MultipleChoice from "./MultipleChoice";
 import Word from "../WordSet/Word/Word";
+import { useStompClient, useSubscription } from "react-stomp-hooks";
 function Quiz() {
+  const [lastMessage, setLastMessage] = useState("No message received yet");
+  const stompClient = useStompClient();
+  useSubscription("/topic/submit", (message) => setLastMessage(message.body));
+
   const navigate = useNavigate();
   const { id } = useParams();
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -27,6 +32,14 @@ function Quiz() {
   const [words, setWords] = useState([]);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   let { showText, setShowText } = useGivenText();
+  const publishMessage = (recordItems) => {
+    if (stompClient) {
+      stompClient.publish({
+        destination: "/quizzes/submit",
+        body: recordItems,
+      });
+    }
+  };
   const getById = async (id) => {
     setLoading(true);
     const response = await CustomerService.getCurrentUserQuizById(id);
@@ -137,6 +150,17 @@ function Quiz() {
           }),
         },
       ]);
+      publishMessage(JSON.stringify({
+        recordItems: [{
+          questionId: questions[currentQuestion].id,
+          selectedChoiceIds: selectedIndex.map((selected) => {
+            return questions[currentQuestion]?.choices[selected].id;
+          }),
+        }],
+        quizId: id,
+        timeLeft: duration
+      }));
+      
       setIsNextButton(false);
       setSelectedIndex([]);
     }
@@ -191,6 +215,7 @@ function Quiz() {
         <PreLoader />
       ) : (
         <>
+        <div>{lastMessage}</div>
           <div
             className="progress-timer time mb-3"
             style={{ "--value": (duration / 1800) * 100 }}
