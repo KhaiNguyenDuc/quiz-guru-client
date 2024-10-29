@@ -517,6 +517,17 @@
     color: var(--text-color);
   }
 
+  .answer-label.selected.correct {
+    background-color:green;
+    color: var(--text-color);
+  }
+
+  .answer-label.selected.incorrect {
+    background-color:red;
+    color: var(--text-color);
+  }
+
+
   .answer-label input {
     outline: none;
     border: none;
@@ -682,3 +693,6 @@
     color: red;
   }
 }
+
+
+
