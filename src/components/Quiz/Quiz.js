@@ -10,11 +10,15 @@ import PreLoader from "../PreLoader/PreLoader";
 import SingleChoice from "./SingleChoice";
 import MultipleChoice from "./MultipleChoice";
 import Word from "../WordSet/Word/Word";
-function Quiz() {
+function Quiz({socket}) {
+  
+  const [selectedResult, setSelectedResult] = useState("No message received yet");
   const navigate = useNavigate();
   const { id } = useParams();
+  const [recordId, setRecordId] = useState()
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [isNextButton, setIsNextButton] = useState(false);
+  const [isAnswerButton, setIsAnswerButton] = useState(false);
   const [isFlip, setFlip] = useState(false);
   const [isResultButton, setIsResultButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState([]);
@@ -27,6 +31,39 @@ function Quiz() {
   const [words, setWords] = useState([]);
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   let { showText, setShowText } = useGivenText();
+  const publishMessage = (recordItems) => {
+    if (socket) {
+      socket.publish({
+        destination: "/quizzes/submit",
+        body: recordItems, // Make sure to stringify the body if it's an object
+      });
+    }
+  };
+  useEffect(() => {
+    if (socket) {
+      socket.onConnect = (frame) => {
+        console.log("STOMP connection established!", frame);
+
+        // Subscribe to a topic
+        socket.subscribe("/topic/submit", (message) => {
+          let response = JSON.parse(message.body)
+          console.log(response)
+          console.log(response.body.data.recordId)
+          setSelectedResult(response.body.data);
+          
+          if(response.body.data.recordId  && response.body.data.recordId != ""){
+            setRecordId(response.body.data.recordId)
+          }
+        });
+      };
+
+      socket.onStompError = (frame) => {
+        console.error("Broker reported error: " + frame.headers["message"]);
+        console.error("Additional details: " + frame.body);
+      };
+    }
+  }, [socket]);
+
   const getById = async (id) => {
     setLoading(true);
     const response = await CustomerService.getCurrentUserQuizById(id);
@@ -87,19 +124,18 @@ function Quiz() {
       setSelectedIndex([...selectedIndex, index]);
     }
     if (currentQuestion === questions?.length - 1) {
-      setIsNextButton(false);
-      setIsResultButton(true);
+      setIsAnswerButton(true);
     } else {
-      setIsNextButton(true);
+      setIsAnswerButton(true);
     }
   };
   const submitRecord = async (record) => {
     setLoading(true)
     let response = {};
     if (record) {
-      response = await RecordService.createRecord(record, id, duration);
+      response = await RecordService.createRecord(recordId, record, id, duration);
     } else {
-      response = await RecordService.createRecord(recordItems, id, duration);
+      response = await RecordService.createRecord(recordId, recordItems, id, duration);
     }
     setLoading(false)
     if (response?.status === 201) {
@@ -110,9 +146,42 @@ function Quiz() {
       });
     }
   };
+
+  const chooseAnwser = async () => {
+    if(currentQuestion === questions?.length - 1){
+      setIsNextButton(false)
+      setIsResultButton(true);
+    }else{
+      setIsNextButton(true)
+    }
+    setIsAnswerButton(false)
+    setRecordItems([
+      ...recordItems,
+      {
+        questionId: questions[currentQuestion].id,
+        selectedChoiceIds: selectedIndex
+      },
+    ]);
+
+    publishMessage(JSON.stringify({
+      recordItems: [{
+        questionId: questions[currentQuestion].id,
+        selectedChoiceIds: selectedIndex
+      }],
+      quizId: id,
+      timeLeft: duration,
+      recordId: recordId
+    }));
+   
+
+
+  }
+
   const nextQuestion = async () => {
     setQuizIndex(quizIndex + 1);
     setFlip(false)
+    setSelectedIndex([]);
+    setSelectedResult({})
     if (currentQuestion >= questions?.length - 1) {
       setCurrentQuestion(0);
 
@@ -120,29 +189,20 @@ function Quiz() {
         ...recordItems,
         {
           questionId: questions[currentQuestion].id,
-          selectedChoiceIds: selectedIndex.map((selected) => {
-            return questions[currentQuestion]?.choices[selected].id;
-          }),
+          selectedChoiceIds: selectedIndex
         },
       ]);
     } else if(quizIndex===0 || quizIndex % 2 !== 0 || words[quizIndex - 1] === undefined){
       // If not flashcard so append to result to submit
       setCurrentQuestion(currentQuestion + 1);
-      setRecordItems([
-        ...recordItems,
-        {
-          questionId: questions[currentQuestion].id,
-          selectedChoiceIds: selectedIndex.map((selected) => {
-            return questions[currentQuestion]?.choices[selected].id;
-          }),
-        },
-      ]);
+
       setIsNextButton(false);
-      setSelectedIndex([]);
+      
     }
   };
 
   useEffect(() => {
+
     const timer = setInterval(() => {
       setDuration(duration - 1);
     }, 1000);
@@ -191,6 +251,7 @@ function Quiz() {
         <PreLoader />
       ) : (
         <>
+        {/* <div>{selectedResult}</div> */}
           <div
             className="progress-timer time mb-3"
             style={{ "--value": (duration / 1800) * 100 }}
@@ -315,6 +376,7 @@ function Quiz() {
                           currentQuestion={currentQuestion}
                           selectAnswer={selectAnswer}
                           selectedIndex={selectedIndex}
+                          selectedResult={selectedResult}
                         />
                       ) : questions[currentQuestion]?.type ===
                         "SINGLE_CHOICE" ? (
@@ -323,6 +385,7 @@ function Quiz() {
                           currentQuestion={currentQuestion}
                           selectAnswer={selectAnswer}
                           selectedIndex={selectedIndex}
+                          selectedResult={selectedResult}
                         />
                       ) : (
                         <></>
@@ -330,7 +393,20 @@ function Quiz() {
                     </>
    
                 )}
-
+                {isAnswerButton && (
+                    <div className="next">
+                    <button
+                      onClick={() => chooseAnwser()}
+                      type="button"
+                      className="next-btn"
+                    >
+                      Chọn
+                      <div className="icon">
+                        <FontAwesomeIcon icon="arrow-right" />
+                      </div>
+                    </button>
+                  </div>
+                )}
                 {isNextButton ? (
                   <div className="next">
                     <button

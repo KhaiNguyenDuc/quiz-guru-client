@@ -5,13 +5,13 @@ const MultipleChoice = ({
   currentQuestion,
   selectAnswer,
   selectedIndex,
+  selectedResult,
 }) => {
   const handleSelect = (index) => {
    
       selectAnswer(index);
     
   };
-
   return (
     <>
       <div className="question-box">
@@ -21,10 +21,37 @@ const MultipleChoice = ({
         </div>
       </div>
       <div className="answers-boxes">
-        {question?.choices.map((choice, index) => {
-          return (
-            <label
+        {question?.choices.map((choice) => {
+          var index = choice.id
+          if(selectedResult && selectedResult?.correctIndex?.length > 0  ) {
+            const result = selectedIndex.filter((selected) => selected === index)[0];
+            const correctIndex = selectedResult.correctIndex
+            return ( 
+              <label
 
+              key={index}
+              htmlFor={index}
+              className={
+
+                correctIndex.includes(index)?
+                "answer-label selected correct" 
+                : result && !correctIndex.includes(index) ?
+                "answer-label selected incorrect"
+                : "answer-label"
+              }
+            >
+              {choice.name}
+              <input
+                type="checkbox"
+                name="answer"
+                id={index}
+                checked={selectedIndex.includes(index)}
+              />
+            </label>
+            )
+          }else {
+            return (
+              <label
               key={index}
               htmlFor={index}
               className={
@@ -42,7 +69,9 @@ const MultipleChoice = ({
                 onChange={() => handleSelect(index)}
               />
             </label>
-          );
+            )
+          }
+
         })}
       </div>
     </>

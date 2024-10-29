@@ -23,7 +23,7 @@ const QuizInfoReview = () => {
 
     const handleDoTestClick = () => {
         setIsPreparing(true);
-        setCountdown(15);
+        setCountdown(2);
         
         const timer = setInterval(() => {
             setCountdown((prev) => {
