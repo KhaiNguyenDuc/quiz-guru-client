@@ -1,7 +1,7 @@
 export const HOST = 'api/v1'
 export const ROOT = 'http://localhost:8072'
 export const LOGOUT_REDIRECT_URL = "http://localhost:3000"
-export const KEYCLOAK_URL = 'http://localhost:7080'
+export const KEYCLOAK_URL = 'http://localhost:8080'
 export const KEYCLOAK_REALM = 'Quizguru'
 export const KEYCLOAK_CLIENT_ID = 'quizguru-frontend-ac'
 export const GOOGLE_CLIENT_ID  = '990887837910-pml8dp7e0lhotrolcprggedblnfki2no.apps.googleusercontent.com'

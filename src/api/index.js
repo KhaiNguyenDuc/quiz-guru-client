@@ -50,7 +50,7 @@ axiosPrivate.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     } else if (error.response?.status === 500) {
-      window.location.href = "/internal-error";
+      // window.location.href = "/internal-error";
     }
     return Promise.reject(error);
   }

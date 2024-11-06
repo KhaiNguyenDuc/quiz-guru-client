@@ -4,7 +4,6 @@ import Quiz from "../../components/Quiz/Quiz";
 import "./index.css";
 
 const QuizPage = () => {
-  const [selectedResult, setSelectedResult] = useState("No message received yet");
   const [stompClient, setStompClient] = useState(null);
 
   useEffect(() => {
@@ -13,7 +12,9 @@ const QuizPage = () => {
     protocols.push(accessToken);
     if (accessToken) {
       const socket = new WebSocket("ws://localhost:8083/quizzes/ws-endpoint", protocols);
-      
+      socket.onerror = (error) => {
+        console.error("WebSocket Error: ", error);
+      };
       const stompClient = new Client({
         webSocketFactory: () => socket,
         connectHeaders: {
