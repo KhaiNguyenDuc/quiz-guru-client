@@ -194,18 +194,6 @@ const SideBar = ({ children }) => {
               )}
             </div>
             <ul className="list-unstyled text-start  mb-5 ">
-              <li>
-                <>
-                  {user === undefined && (
-                    <>
-                      <NavLink to={"/auth/login"}>
-                        <FontAwesomeIcon icon="home" className="fa-icon" />{" "}
-                        <span>Đăng nhập</span>
-                      </NavLink>
-                    </>
-                  )}
-                </>
-              </li>
               {user !== undefined && (
                 <>
                   <li>
