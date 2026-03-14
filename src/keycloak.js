@@ -7,4 +7,13 @@ const keycloak = new Keycloak({
     clientId: KEYCLOAK_CLIENT_ID
 });
 
+let keycloakInitPromise = null;
+
+export const initKeycloakOnce = (options) => {
+    if (!keycloakInitPromise) {
+        keycloakInitPromise = keycloak.init(options);
+    }
+    return keycloakInitPromise;
+};
+
 export default keycloak;

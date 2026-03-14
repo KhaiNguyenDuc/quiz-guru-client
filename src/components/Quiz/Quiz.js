@@ -32,16 +32,18 @@ function Quiz({socket}) {
   const [isErrorMessage, setIsErrorMessage] = useState(false);
   let { showText, setShowText } = useGivenText();
   const publishMessage = (recordItems) => {
-    if (socket) {
+    if (socket?.connected) {
       socket.publish({
         destination: "/quizzes/submit",
         body: recordItems, // Make sure to stringify the body if it's an object
       });
+    } else {
+      console.warn("STOMP is not connected yet, skipping publish.");
     }
   };
   useEffect(() => {
     if (socket) {
-      socket.onConnect = (frame) => {
+      const handleConnect = (frame) => {
         console.log("STOMP connection established!", frame);
 
         // Subscribe to a topic
@@ -56,6 +58,12 @@ function Quiz({socket}) {
           }
         });
       };
+
+      if (socket.connected) {
+        handleConnect();
+      } else {
+        socket.onConnect = handleConnect;
+      }
 
       socket.onStompError = (frame) => {
         console.error("Broker reported error: " + frame.headers["message"]);
